@@ -13,11 +13,10 @@ class Solution {
 
         while(low <= high){
             int mid = (low + high) / 2;
-            Coord c = convertToCoord(mid);
+            int row = mid / collength;
+            int col = mid % collength;
 
-            int value = matrix[c.row][c.col];
-            System.out.println(c.row + "," + c.col + " " + value);
-            System.out.println(low + "," + high);
+            int value = matrix[row][col];
 
             if(value > target){
                 high = mid - 1;
@@ -29,20 +28,6 @@ class Solution {
         }
         return false;
     }
-
-    Coord convertToCoord(int position){
-        int row = position / collength;
-        int col = position % collength;
-        return new Coord(row, col);
-    }
 }
 
-class Coord{
-    public int row;
-    public int col;
-    public Coord(int row, int col){
-        this.row = row;
-        this.col = col;
-    }
-}
 
