@@ -14,7 +14,6 @@ class Solution {
         else{
             while (low < high) {
                 int mid = (low + high) / 2;
-                System.out.println(low+","+high+","+mid+":"+nums[mid]);
                 if (nums[mid] > nums[high]) {
                     low = mid + 1; 
                 } else if (nums[mid] < nums[high]) {
@@ -28,14 +27,10 @@ class Solution {
 
         low = 0;
         high = nums.length - 1;
-
-        System.out.println(pivot);
         
         while (low <= high) {
             int mid = (low + high) / 2;
             int realMid = (mid + pivot) % nums.length;
-
-            System.out.println(low+","+high+","+mid+":"+nums[realMid]);
             
             if (nums[realMid] == target) {
                 return true;
