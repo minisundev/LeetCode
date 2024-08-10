@@ -16,10 +16,8 @@ class Solution {
                 int mid = (low + high) / 2;
                 if (nums[mid] > nums[high]) {
                     low = mid + 1; 
-                } else if (nums[mid] < nums[high]) {
+                } else{
                     high = mid; 
-                } else { 
-                    high--; 
                 }
             }
             pivot = low;
