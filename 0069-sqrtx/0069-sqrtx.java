@@ -14,9 +14,7 @@ class Solution {
         while(low<=high){
             int mid = (low+high)/2;
 
-            long square = (long)mid*mid;
-
-            System.out.println(low+"-"+high+" "+mid+" : "+square);
+            long square = (long)mid*mid;//overflow나는거 잡으려고 계산시부터 long으로 casting 해줌
             
             
             if(square<x){//작거나 같으면 올려라
