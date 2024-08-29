@@ -29,10 +29,21 @@ class Solution {
         }
         
         if(arr1.length>arr2.length){
-            return 1;
+            while(index<arr1.length){
+                if(Integer.parseInt(arr1[index])!=0){
+                    return 1;
+                }
+                index++;
+            }
         }else if(arr1.length<arr2.length){
-            return -1;
+           while(index<arr2.length){
+                if(Integer.parseInt(arr2[index])!=0){
+                    return -1;
+                }
+                index++;
+            }
         }
+
         return 0;
     }
 }
