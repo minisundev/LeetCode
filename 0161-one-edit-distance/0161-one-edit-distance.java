@@ -16,17 +16,14 @@ class Solution {
         if(s.length()+1 == t.length()){//delete one -> 그 다음 것부터 일치할 경우, 크기가 +1일 경우
             while(left<s.length() && right<t.length()){
                 if(s.charAt(left)==t.charAt(right)){
-                    System.out.println(s.charAt(left)+","+t.charAt(right));
                     left++;
                     right++;
                 }else{  
                     if(pass==0){
-                        System.out.println(s.charAt(left)+","+t.charAt(right));
                         pass++;
                         right++;
 
                     }else if(pass>=1){
-                        System.out.println(s.charAt(left)+","+t.charAt(right));
                         pass++;
                         break;
                     }
