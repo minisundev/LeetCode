@@ -35,11 +35,4 @@ class Solution {
         arr[i1] = arr[i2];
         arr[i2] = temp;
     }
-
-    void print(char [] s){
-        for(char c : s){
-            System.out.print(c);
-        }
-        System.out.println();
-    }
 }
