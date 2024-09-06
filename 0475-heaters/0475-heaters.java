@@ -14,7 +14,7 @@ class Solution {
         while (low <= high) {
             int mid = (high + low) / 2;
             
-            if (checkIfHouseIsReady(mid, houses, heaters)) {
+            if (checkIfHouseIsHeated(mid, houses, heaters)) {
                 min = Math.min(min,mid);
                 high = mid - 1;
             } else {
@@ -24,8 +24,8 @@ class Solution {
         return min;
     }
 
-    boolean checkIfHouseIsReady(int range, int[] houses, int[] heaters) {
-        int i = 0; // Pointer for houses
+    boolean checkIfHouseIsHeated(int range, int[] houses, int[] heaters) {
+        int i = 0;
         
         for (int heater : heaters) {
             int left = heater - range;
