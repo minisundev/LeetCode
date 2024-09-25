@@ -4,13 +4,13 @@ class Solution {
         int [][] answer = new int [n][n];
 
         int x = 0;
-        int y = -1;//아니면 처음을 -1로 해주는 수도 있어
+        int y = 0;
 
         int [][] dl = {{0,1},{1,0},{0,-1},{-1,0}};
         int index = 0;
 
-        //answer[0][0] = 1; //들어가서 dl만큼 전진하니까 0,0은 미리 해줘야 함
-        int count = 1;
+        answer[0][0] = 1; //들어가서 dl만큼 전진하니까 0,0은 미리 해줘야 함
+        int count = 2; //1을 이미 썼으니 2부터
 
         while(count<=n*n){
 
