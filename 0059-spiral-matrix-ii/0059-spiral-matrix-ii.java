@@ -1,22 +1,15 @@
 class Solution {
     public int[][] generateMatrix(int n) {
 
-        if(n==1){
-            int [][] result = {{1}};
-            return result;
-        }
-
         int [][] answer = new int [n][n];
 
         int x = 0;
         int y = 0;
 
-        answer[0][0] = 1;
-        //int [][] dl = {{-1,0},{0,1},{1,0},{0,-1}};
-        //int [][] dl = {{-1,0},{0,-1},{1,0},{0,1}};
-        //int [][] dl = {{1,0},{0,1},{-1,0},{0,-1}};
         int [][] dl = {{0,1},{1,0},{0,-1},{-1,0}};
         int index = 0;
+
+        answer[0][0] = 1; //들어가서 dl만큼 전진하니까 0,0은 미리 해줘야 함
         int count = 2;
 
         while(count<=n*n){
