@@ -1,23 +1,22 @@
 class Solution {
-    
-    int [] count;
 
     public int jump(int[] nums) {
-        count = new int[nums.length];
-        Arrays.fill(count,Integer.MAX_VALUE);
-        count[0] = 0;
+        if (nums.length == 1) return 0;
 
-        for(int i=0; i<nums.length; i++){
-            int jump = nums[i];
-            
-            for(int j=0; j<=jump; j++){
-                if(i+j<nums.length){
-                    count[i+j] = Math.min(count[i]+1,count[i+j]);
-                    //System.out.println((i+j)+": "+count[i+j]);
+        int maxReach = 0, steps = 0, lastJumpedPos = 0;
+
+        for (int i = 0; i < nums.length - 1; i++) {
+            maxReach = Math.max(maxReach, i + nums[i]);
+
+            if (i == lastJumpedPos) {
+                steps++;
+                lastJumpedPos = maxReach;
+                if (lastJumpedPos >= nums.length - 1) {
+                    break;
                 }
             }
         }
 
-        return count[count.length-1];
+        return steps;
     }
 }
