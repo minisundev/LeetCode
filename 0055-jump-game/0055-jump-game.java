@@ -9,7 +9,10 @@ class Solution {
         for(int i=1; i<nums.length; i++){
             int num = nums[i];
             
-            for(int j=i-1; j>=0 ; j--){//true가 되는 순간 break를 걸면 빠르지 않아?            
+            for(int j=i-1; j>=0 ; j--){//조금 빨라졌지만 아직도 느리다
+                if(dp[i]){
+                    break;
+                }
                 int jump = nums[j];
                 if(j+jump>=i){
                     dp[i] = dp[i]||dp[j];
@@ -19,8 +22,6 @@ class Solution {
                 }
             }
         }
-
-
         return dp[nums.length-1];
     }
 }
