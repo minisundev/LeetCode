@@ -1,20 +1,25 @@
 class Solution {
+    boolean [] dp ;
+    int [] arr;
     public boolean canJump(int[] nums) {
-        //이게ㅐ 어떻게 dp더라....
-        boolean [] dp = new boolean[nums.length];
+        dp = new boolean[nums.length];
         dp[0] = true;
+        arr = nums;
 
-        for(int i=0; i<nums.length; i++){
+        for(int i=1; i<nums.length; i++){
             int num = nums[i];
-            if(dp[i]){
-                for(int j=0; j<=num && i+j<nums.length ;j++){//시간초과가 날 것 같은데요
-                //System.out.println(i+"+"+j);
-                    dp[i+j] = true;//.이게 아닌거같은데.............
-                    //dp[i+j]=dp[i]||dp //점화식이 안 나오는 dp가 어디있음
+            
+            for(int j=i-1; j>=0 ; j--){//true가 되는 순간 break를 걸면 빠르지 않아?            
+                int jump = nums[j];
+                if(j+jump>=i){
+                    dp[i] = dp[i]||dp[j];
+                }
+                if(dp[i]){
+                    break;
                 }
             }
-            
         }
+
 
         return dp[nums.length-1];
     }
