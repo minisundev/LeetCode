@@ -2,22 +2,45 @@ import java.util.*;
 
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
-        //일단 버킷 안 쓰고 그냥 생각나는대로 풀어봄
+        
         Map<Integer,Integer> map = new HashMap<>();
+        
         for(int num : nums){
             map.put(num, map.getOrDefault(num,0)+1);
         }
 
+        //버킷을 써서 정렬을 삭제함
+        List<List<Integer>> buckets = new ArrayList(nums.length);
+        for (int i = 0; i <= nums.length; i++) {
+            buckets.add(new ArrayList<>()); 
+        }
+
         List<Map.Entry<Integer,Integer>> list = new ArrayList<>(map.entrySet());
-        Collections.sort(list,
-        (e1,e2)->
-            e2.getValue()-e1.getValue()
-        );
+
+        for(Map.Entry<Integer,Integer> entry : list){
+            List<Integer> element = buckets.get(entry.getValue());
+            element.add(entry.getKey());
+        }
+
 
         int [] answer = new int[k];
 
-        for(int i=0; i<k; i++){
-            answer[i] = list.get(i).getKey();
+        int index = 0;
+        int target = nums.length;
+
+        while(index<k){
+            List<Integer> element = buckets.get(target);
+
+            if(element!=null && !element.isEmpty()){
+                for(int i=element.size()-1; i>=0; i--){
+                    answer[index++] = element.get(i);
+                    element.remove(i);
+                    if(index>=k){
+                        break;
+                    }
+                }
+            }
+            target--;
         }
 
         return answer;
