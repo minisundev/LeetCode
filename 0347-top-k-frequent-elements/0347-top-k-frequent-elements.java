@@ -31,12 +31,12 @@ class Solution {
         while(index<k){
             List<Integer> element = buckets.get(target);
 
-            if(element!=null && !element.isEmpty()){
+            if(!element.isEmpty()){
                 for(int i=element.size()-1; i>=0; i--){
                     answer[index++] = element.get(i);
                     //element.remove(i); -> 굳이 안 해도 되는 remove 빼봄
                     if(index>=k){
-                        break;
+                        return answer;
                     }
                 }
             }
