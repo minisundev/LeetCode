@@ -1,5 +1,6 @@
 class Solution {
     public int minDistance(String word1, String word2) {
+        //이것도 대가리 깨지는데 더 빠른 풀이가 있음
         int m = word1.length();
         int n = word2.length();
 
