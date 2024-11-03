@@ -8,14 +8,15 @@ class Solution {
         dp[1] = s.charAt(0) != '0' ? 1 : 0; 
 
         for (int i = 2; i <= n; i++) {
-            int oneDigit = Integer.parseInt(s.substring(i - 1, i)); //마지막 한 자리
-            int twoDigits = Integer.parseInt(s.substring(i - 2, i)); //마지막 두 자리
 
+            int oneDigit = s.charAt(i - 1) - '0'; 
             if (oneDigit >= 1) {
                 dp[i] += dp[i - 1];
             }
 
-            if (twoDigits >= 10 && twoDigits <= 26) {
+
+            int twoDigit = (s.charAt(i - 2) - '0') * 10 + (s.charAt(i - 1) - '0');
+            if (twoDigit >= 10 && twoDigit <= 26) {
                 dp[i] += dp[i - 2];
             }
         }
