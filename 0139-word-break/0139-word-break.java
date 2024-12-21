@@ -1,33 +1,24 @@
 class Solution {
-    boolean result = false;
-    List<String> wordDict;
-
     public boolean wordBreak(String s, List<String> wordDict) {
-        //replace로 들어가는 냅색같은 dp일 거 같은데 worddict의 항목을 포함하고 안 하고 해서 끝까지 가봐야 할 거 같아서..?
-        //포함함 포함하지않음 으로 0이 되거나 wordDict의 모든 항목을 돌았거나 하면 return 해야겠지
-        //그러나 진ㅉ나 dp는 모르겠고 백트래킹밖에 모르겠다 
-        //이따 가서 dp로 다시풀어봄
-        this.wordDict = wordDict;
-        search(0,s);
-        return result;
-    }
+        int n = s.length();
+        boolean[] dp = new boolean[n + 1];
+        dp[0] = true;  // 빈 문자열은 항상 가능
 
-    void search(int index, String s){
-        if(result){
-            return;
+        // 모든 위치에 대해
+        for (int i = 1; i <= n; i++) {
+            // 이전 모든 위치에서 현재 위치까지 단어가 있는지 확인
+            for (String word : wordDict) {
+                int len = word.length();
+                if (len <= i) {
+                    // 이전 위치까지 분할 가능하고, 현재 부분이 사전에 있는 단어인 경우
+                    if (dp[i - len] && s.substring(i - len, i).equals(word)) {
+                        dp[i] = true;
+                        break;
+                    }
+                }
+            }
         }
-        if(s.length()==0){
-            result = true;
-            return;
-        }
-        if(index==wordDict.size()){
-            return;
-        }
-
-        //포함
-        search(index+1,s.replace(wordDict.get(index),""));
-
-        //미포함
-        search(index+1,s);
+        
+        return dp[n];
     }
 }
