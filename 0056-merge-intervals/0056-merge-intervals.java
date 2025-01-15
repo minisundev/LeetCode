@@ -12,26 +12,22 @@ class Solution {
 
         Collections.sort(list, (o1,o2)->{
             if(o1[0]!=o2[0]){
-                return o1[0]-o2[0];
+                return o2[0]-o1[0];
             }
-            return o1[1]-o2[1];
+            return o2[1]-o1[1];
         });
         
         for(int i=list.size()-1;i>0;i--){
-            int [] i1 = list.get(i-1);
-            int [] i2 = list.get(i);
+            int [] i2 = list.get(i-1);
+            int [] i1 = list.get(i);
             //당연한 것 : i1[0]<=i2[0]
-            if(i2[0]<=i1[1]){
+            if(i1[0]<=i2[0]&&i1[1]>=i2[1]){
+                list.remove(i-1);
+            }else if(i2[0]<=i1[1]){
                 i1[1] = Math.max(i2[1],i1[1]);
-                list.remove(i);
+                list.remove(i-1);
             }else if(i2[1]<=i1[1]){
-                list.remove(i);
-            }else if(i1[0]<=i2[0]&&i1[1]>=i2[1]){
-                i1[0] = i2[0];
-                i1[1] = i2[1];
-                list.remove(i);
-            }else if(i1[0]>=i2[0]&&i1[1]<=i2[1]){
-                list.remove(i);
+                list.remove(i-1);
             }
         }
         
