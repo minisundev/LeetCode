@@ -5,6 +5,9 @@ class Solution {
         int child = childs.length-1;
         int cookie = cookies.length-1;
 
+        Arrays.sort(childs);
+        Arrays.sort(cookies);
+
         while(child>=0 && cookie>=0){
             if(cookies[cookie]>=childs[child]){
                 count++;
