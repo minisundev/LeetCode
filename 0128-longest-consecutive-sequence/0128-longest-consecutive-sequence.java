@@ -7,11 +7,11 @@ class Solution {
         // 시작하는 HashMap이랑 끝나는 HashMap을 동시에 관리해서 시작과 끝을 얘로 검색해서 둘 다 업데이트 치고 remove 하시면
         // 되겠습니다!!
         if(nums.length==0) return 0;
-        
+
         Map<Integer, Integer> start = new HashMap<>();
         Map<Integer, Integer> end = new HashMap<>();
         for (int i : nums) {
-            if (!start.containsKey(i)) {
+            if (!start.containsKey(i) && !end.containsKey(i)) {
                 if (end.containsKey(i - 1) && start.containsKey(i + 1)) {
                     end.put(start.get(i + 1), end.get(i - 1));
                     start.put(end.get(i - 1), start.get(i + 1));
