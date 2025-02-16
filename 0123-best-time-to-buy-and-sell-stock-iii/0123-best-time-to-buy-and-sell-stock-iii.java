@@ -2,9 +2,6 @@ class Solution {
     public int maxProfit(int[] prices) {
         int max = 0;
         //state 정의 : hold => sold => hold2 => rest
-        //int [] hold = new int [prices.length];
-        //int [] sold = new int [prices.length];
-        //int [] hold2 = new int [prices.length];
 
         int hold = -prices[0];//처음에 사버려~~~
         int sold = 0;
