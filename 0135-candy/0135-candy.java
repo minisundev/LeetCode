@@ -2,8 +2,7 @@ class Solution {
     public int candy(int[] ratings) {
         int [] candy = new int [ratings.length];
         int candies = 0;
-
-        Arrays.fill(candy,-1);
+        
         //rating이 적은 순서대로 넣어놨다가..그리디로 풀면 될 거 같기도 하고 ㅜ
         PriorityQueue<Child> pq = new PriorityQueue<>(
             (o1,o2)->{
