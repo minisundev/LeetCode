@@ -26,41 +26,25 @@ class Solution {
             }
 
             candy[i] = next;
-            //System.out.println(i + ") next:" + next + " total:" + candies);
-            // 어어 모노토닉스택처럼 하면 돼 베이스라인을 싹 다 올릴 필요가 없어 메꿔지는데까지 모노토닉스택에 넣어놧다가 뽑으면 됨?
         }
 
         if(candy[ratings.length-1]==0){
             candy[ratings.length-1] = 1;
         }
-
+        
+        int candies = candy[ratings.length-1];
         for (int i = ratings.length-2; i >=0; i--) {
             int current = ratings[i];
-            // 왼쪽과 비교~~~
             // 오작 인 경우
             int next = 1;
             if (ratings[i + 1] < current) {// 오른쪽이 나보다 더 작은 경우
                 next = candy[i + 1] + 1;
             }
 
-            // if (current < ratings[i + 1]) {// 오른쪽이 나보다 더 큰 경우
-            //     next = candy[i + 1] - 1;
-            // }
-
-            // if (current == ratings[i - 1]) {// 오른쪽이 나랑 같은 경우 1로 내려버리면 최솟값일듯...
-            //     next = 1;
-            // }
-
             candy[i] = Math.max(candy[i],next);
-            //System.out.println(i + ") next:" + next + " total:" + candies);
-            // 어어 모노토닉스택처럼 하면 돼 베이스라인을 싹 다 올릴 필요가 없어 메꿔지는데까지 모노토닉스택에 넣어놧다가 뽑으면 됨?
+            candies += candy[i];
         }
-
-        int candies = 0;
-
-        for(int c : candy){
-            candies += c;
-        }
+        
         return candies;
     }
 }
