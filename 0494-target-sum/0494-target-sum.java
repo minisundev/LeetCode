@@ -1,27 +1,25 @@
-import java.util.*;
-
 class Solution {
     public int findTargetSumWays(int[] nums, int target) {
-        Map<Integer, Integer> map = new HashMap<>();
 
-        map.put(nums[0], map.getOrDefault(nums[0], 0) + 1);
-        map.put(-nums[0], map.getOrDefault(-nums[0], 0) + 1);
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        
+        if (target > sum || target < -sum || (target + sum) % 2 != 0) {
+            return 0;
+        }
+        
+        int newTarget = (target + sum) / 2; 
+        int[] dp = new int[newTarget + 1];
+        dp[0] = 1; 
 
-        for (int i = 1; i < nums.length; i++) {
-            int element = nums[i];
-            Map<Integer, Integer> newMap = new HashMap<>();
-
-            for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-                int sum = entry.getKey();
-                int count = entry.getValue();
-
-                newMap.put(sum + element, newMap.getOrDefault(sum + element, 0) + count);
-                newMap.put(sum - element, newMap.getOrDefault(sum - element, 0) + count);
+        for (int num : nums) {
+            for (int j = newTarget; j >= num; j--) {
+                dp[j] += dp[j - num]; 
             }
-
-            map = newMap;
         }
 
-        return map.getOrDefault(target, 0);
+        return dp[newTarget]; 
     }
 }
