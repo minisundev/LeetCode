@@ -31,8 +31,7 @@ class Solution {
         if(candy[ratings.length-1]==0){
             candy[ratings.length-1] = 1;
         }
-        
-        int candies = candy[ratings.length-1];
+
         for (int i = ratings.length-2; i >=0; i--) {
             int current = ratings[i];
             // 오작 인 경우
@@ -42,9 +41,13 @@ class Solution {
             }
 
             candy[i] = Math.max(candy[i],next);
-            candies += candy[i];
         }
-        
+
+        int candies = 0;
+
+        for(int c : candy){
+            candies += c;
+        }
         return candies;
     }
 }
