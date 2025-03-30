@@ -15,7 +15,7 @@ class Solution {
         for(int i=1; i<=n/2; i++){
             max = Math.max(max, dp[n-i]*dp[i]);
         }
-        return max;
+        return max;//두개로 나눠서 곱한것의 최대숫자~~
     }
 
     void divide(int n) {
