@@ -31,9 +31,7 @@ class Solution {
 
             if(dp[i] * dp[n - i]>dp[n]){
                 dp[n] =  dp[i] * dp[n - i];
-                //System.out.println("dp[" + n + "] update at " + i +"*"+(n-i)+" to "+ dp[n]);
             }
         }
-        //System.out.println("dp[" + n + "]" + dp[n]);
     }
 }
