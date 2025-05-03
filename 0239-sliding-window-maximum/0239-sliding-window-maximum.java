@@ -1,36 +1,43 @@
 class Solution {
+    ArrayDeque<Element> q = new ArrayDeque<>();
+    int[] arr;
+    int k;
+
     public int[] maxSlidingWindow(int[] nums, int k) {
-        PriorityQueue<Element> pq = new PriorityQueue<>(
-            (o1,o2)->o2.num-o1.num
-        );
+        int[] answer = new int[nums.length - k + 1];
+        arr = nums;
+        this.k = k;
 
-        int [] answer = new int[nums.length-k+1];
-
-        for(int i=0; i<k; i++){
-            pq.add(new Element(nums[i],i));
-        }
-
-        for(int i=k-1;i<nums.length;i++){
-            pq.add(new Element(nums[i],i));
-            while(!pq.isEmpty()&&pq.peek().index<=i-k){
-                //System.out.println("index"+pq.peek().index+"out at "+i);
-                pq.poll();
-            }
-            if(!pq.isEmpty()){
-            answer[i-k+1] = pq.peek().num;
+        for (int i = 0; i < nums.length; i++) {
+            add(i, nums[i]);
+            if (i >= k - 1) {
+                answer[i - k + 1] = q.peekFirst().num;
             }
         }
 
         return answer;
     }
 
+    void add(int i, int n) {
+        // 범위 밖 요소 제거
+        while (!q.isEmpty() && q.peekFirst().index <= i - k) {
+            q.removeFirst();
+        }
+        // 새 값보다 작거나 같은 애들 제거 (뒤에서)
+        while (!q.isEmpty() && q.peekLast().num <= n) {
+            q.removeLast();
+        }
+        // 새 값 추가
+        q.addLast(new Element(i, n));
+    }
 }
 
-class Element{
+class Element {
     public int num;
     public int index;
-    public Element(int n, int i){
-        num = n;
+
+    public Element(int i, int n) {
         index = i;
+        num = n;
     }
 }
