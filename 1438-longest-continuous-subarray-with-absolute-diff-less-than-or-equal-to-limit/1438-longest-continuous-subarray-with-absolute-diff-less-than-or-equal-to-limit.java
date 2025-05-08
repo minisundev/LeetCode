@@ -1,78 +1,63 @@
 class Solution {
-    PriorityQueue<Integer> min = new PriorityQueue<>(
-            (o1, o2) -> o1 - o2);
-    PriorityQueue<Integer> max = new PriorityQueue<>(
-            (o1, o2) -> o2 - o1);
-
-    Map<Integer, Integer> minMap = new HashMap<>();
-    Map<Integer, Integer> maxMap = new HashMap<>();
+    ArrayDeque<Integer> min = new ArrayDeque<>();
+    ArrayDeque<Integer> max = new ArrayDeque<>();
+    int [] arr;
+    int k;
 
     public int longestSubarray(int[] nums, int limit) {
+        arr = nums;
+        k = limit;
+
         int length = 0;
         int j = 0;
 
         for (int i = 0; i < nums.length; i++) {
 
-            int num = nums[i];
-            add(num);
-            //System.out.println("index: " + i + " num: " + num);
+            insertMin(i);
+            insertMax(i);
 
-            while (j < i && maxDiff() > limit) {
-                remove(nums[j]);
+            while(j<i && arr[max.peekFirst()]-arr[min.peekFirst()]>limit){
                 j++;
+                cleanMin(j);
+                cleanMax(j);
             }
+            
+            //System.out.println("i:"+i+" j:"+j+" min:"+arr[min.peekFirst()] + " max:"+arr[max.peekFirst()]);
 
+            cleanMin(j);
+            cleanMax(j);
+            
             length = Math.max(i-j+1, length);
-
-            //System.out.println(i + "," + j + " maxDiff():" + maxDiff() + " length: " + length);
         }
 
         return length;
     }
 
-    int maxDiff() {
-        clean(min, minMap);
-        clean(max, maxMap);
-        return max.peek() - min.peek();
-    }
-
-    void add(int num) {
-        int minCount = minMap.getOrDefault(num, 0);
-        int maxCount = maxMap.getOrDefault(num, 0);
-        if (minCount == 0) {
-            min.add(num);
+    void insertMin(int index){
+        int num = arr[index];
+        while(!min.isEmpty() && arr[min.peekLast()]>num){
+            min.removeLast();
         }
-        if (maxCount == 0) {
-            max.add(num);
+        min.addLast(index);
+    }
+
+    void insertMax(int index){
+        int num = arr[index];
+        while(!max.isEmpty() && arr[max.peekLast()]<num){
+            max.removeLast();
         }
-        minCount++;
-        maxCount++;
-        minMap.put(num, minCount);
-        maxMap.put(num, maxCount);
+        max.addLast(index);
     }
 
-    void remove(int num) {
-        int minCount = minMap.getOrDefault(num, 0);
-        int maxCount = maxMap.getOrDefault(num, 0);
-        minCount--;
-        maxCount--;
-        minMap.put(num, minCount);
-        maxMap.put(num, maxCount);
-    }
-
-    void clean(PriorityQueue<Integer> pq, Map<Integer, Integer> map) {
-        while (!pq.isEmpty() && map.getOrDefault(pq.peek(), 0) == 0) {
-            pq.poll();
+    void cleanMin(int index){
+        while(!min.isEmpty() && min.peekFirst()<index){
+            min.removeFirst();
         }
     }
-}
 
-class Element {
-    public int val;
-    public int index;//final index 말하는거임
-
-    public Element(int v, int i) {
-        val = v;
-        index = i;
+    void cleanMax(int index){
+        while(!max.isEmpty() && max.peekFirst()<index){
+            max.removeFirst();
+        }
     }
 }
