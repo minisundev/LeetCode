@@ -7,7 +7,6 @@ class Solution {
         int[] lastCandle = new int[n];
         int[] nextCandle = new int[n];
 
-        // prefix sum
         plates[0] = s.charAt(0) == '*' ? 1 : 0;
         int last = -1;
         for (int i = 1; i < n; i++) {
