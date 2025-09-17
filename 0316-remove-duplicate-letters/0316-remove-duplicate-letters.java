@@ -1,37 +1,42 @@
 class Solution {
     public String removeDuplicateLetters(String s) {
-        int[] lastIndex = new int[26]; // 각 문자의 마지막 등장 인덱스
-        boolean[] used = new boolean[26]; // 결과에 이미 사용된 문자인지 체크
-        
-        for (int i = 0; i < s.length(); i++) {
-            lastIndex[s.charAt(i) - 'a'] = i;
+        //it can't be acheived without monotonic stack... ;-; so sad
+
+        //final index
+        Map<Character,Integer> lastIndex = new HashMap<>();
+        for(int i=0;i<s.length();i++){
+            lastIndex.put(s.charAt(i),i);
         }
-        
-        Stack<Character> stack = new Stack<>();
-        
-        for (int i = 0; i < s.length(); i++) {
+
+        //결과 스택(문자만 저장함...)
+        Deque<Character> stack = new ArrayDeque<>();
+        //스택에 이미 들어있는지 체크를 해야 함~
+        Set<Character> inStack = new HashSet<>();
+
+        for(int i=0; i<s.length(); i++){
             char c = s.charAt(i);
-            int idx = c - 'a';
-            
-            if (used[idx]) continue;
-            
-            //현재 char보다 크고 나중에 또 나오는 애는 제거,
-            //현재 char보다 작거나 나중에 다시 안 나오는 애는 쓰기
-            while (!stack.isEmpty() && 
-                   stack.peek() > c && 
-                   lastIndex[stack.peek() - 'a'] > i) {
-                used[stack.pop() - 'a'] = false;
+
+            //이미 스택에 있으면 스킵
+            if(inStack.contains(c)) continue;
+
+            //current character < top && top appears later => pop
+            while(!stack.isEmpty()
+                && stack.peekLast() > c
+                && lastIndex.get(stack.peekLast())>i
+            ){
+                char target = stack.pollLast();
+                inStack.remove(target);
             }
-            
-            stack.push(c);
-            used[idx] = true;
+
+            stack.offerLast(c);
+            inStack.add(c);
         }
-        
+
         StringBuilder sb = new StringBuilder();
-        for (char c : stack) {
-            sb.append(c);
-        }
-        
+        for(char c : stack) sb.append(c);
+
         return sb.toString();
+
+
     }
 }
