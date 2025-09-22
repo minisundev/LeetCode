@@ -1,32 +1,30 @@
 class Solution {
+    
+
     public String removeKdigits(String num, int k) {
-        if (num.length() == k) return "0"; // 모든 숫자를 제거하는 경우
-        
-        StringBuilder sb = new StringBuilder();
-        int remainLen = num.length() - k; // 최종적으로 필요한 길이
-        int maxIdx = -1;
-        
-        while (sb.length() < remainLen) {
-            char min = '9';
-            int minIdx = maxIdx + 1;
-            // 현재 위치부터 선택 가능한 범위까지 중 최소값 찾기
-            int end = num.length() - (remainLen - sb.length()) + 1;
-            for (int i = maxIdx + 1; i < end; i++) {
-                if (min > num.charAt(i)) {
-                    min = num.charAt(i);
-                    minIdx = i;
-                }
+
+        Deque<Integer> dq = new ArrayDeque<>();
+        for(int i=0; i<num.length(); i++){
+            int n = num.charAt(i)-'0';
+            
+            while(!dq.isEmpty()
+                && dq.peekLast()>n // 지금 peek가 지금 n보다 크고
+                && dq.size()+(num.length()-i)>num.length()-k// 뒤에 넣을수있는게 남아있으면(peek 뽑고 다시 넣는거 포함)
+            ){
+                dq.pollLast();//뽑기
             }
-            maxIdx = minIdx;
-            sb.append(min);
+            //뒤에 넣을수있는게 안 남아있으면 그냥 나오는거 다 넣어야함 ㅎ...
+            if(dq.isEmpty() && n==0 && num.length()-k!=1) continue;
+            if(dq.size()<num.length()-k) dq.offerLast(n);
         }
-        
-        String str = sb.toString();
-        // 앞의 0 제거
-        while (str.length() > 1 && str.charAt(0) == '0') {
-            str = str.substring(1);
+
+        StringBuilder sb = new StringBuilder();
+        if(dq.isEmpty()){
+            return "0";
         }
-        
-        return str;
+        while(!dq.isEmpty()){
+            sb.append(dq.pollFirst());
+        }
+        return sb.toString();
     }
 }
