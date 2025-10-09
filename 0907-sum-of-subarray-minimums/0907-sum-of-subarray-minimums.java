@@ -17,7 +17,7 @@ class Solution {
         for (int i = 0; i < arr.length; i++) {
             //내 앞으로 나보다 더 큰것들은 다 뽑음=> 나보다 작은 것의 인덱스가 나옴! => 그것을 저장...
             int n = arr[i];
-            while(!deq.isEmpty()&&arr[deq.peekLast()]>=n){
+            while(!deq.isEmpty()&&arr[deq.peekLast()]>n){
                 deq.pollLast();
             }
 
@@ -35,7 +35,7 @@ class Solution {
         for (int j = arr.length-1; j >= 0; j--) {
             //내 뒤로 나보다 더 큰것들은 다 뽑음=> 나보다 작은 것의 인덱스가 나옴!
             int n = arr[j];
-            while(!deq.isEmpty()&&arr[deq.peekLast()]>n){
+            while(!deq.isEmpty()&&arr[deq.peekLast()]>=n){
                 deq.pollLast();
             }
 
