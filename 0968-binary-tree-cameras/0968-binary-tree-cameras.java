@@ -77,7 +77,7 @@ class Solution {
 
     //dfs로 돌아야 한다면 어떻게 해야할까~?
     void copy(TreeNode head, Node node, int depth) {
-        //System.out.println("copy at depth " + depth);
+        System.out.println("copy at depth " + depth);
         if (head.left != null) {
             node.left = new Node();
             addLevel(node.left, depth + 1);
