@@ -28,16 +28,28 @@ class Solution {
         //둘다 null null이 들어있으면 Y=1, N=0 이어야 함~
         //이게 dfs가 성립하지가 않으시고? 레벨 순회를 하셔야 하는뎁쇼?
         //Map으로 depth관리하면서 같은 depth는 다 Map의 List에다 넣어놓고 싹 그 순서로 순회돌아?
-        for (int i = maxLevel; i >= 1; i--) {
-            List<Node> list = level.getOrDefault(i, new ArrayList<>());
+        //는 바보같은 생각이었고 정신차리고 나니 dfs로 할 수 있다는걸 깨달았다!
+        // for (int i = maxLevel; i >= 1; i--) {
+        //     List<Node> list = level.getOrDefault(i, new ArrayList<>());
 
-            for (Node n : list) {
-                cal(n);
-            }
-        }
+        //     for (Node n : list) {
+        //         cal(n);
+        //     }
+        // }
+        trav(node);
 
         return Math.min(node.c, node.i);
 
+    }
+
+    void trav(Node n){
+        if(n.left!=null){
+            trav(n.left);
+        }
+        if(n.right!=null){
+            trav(n.right);
+        }
+        cal(n);
     }
 
     void cal(Node n) {
@@ -77,7 +89,7 @@ class Solution {
 
     //dfs로 돌아야 한다면 어떻게 해야할까~?
     void copy(TreeNode head, Node node, int depth) {
-        System.out.println("copy at depth " + depth);
+        //System.out.println("copy at depth " + depth);
         if (head.left != null) {
             node.left = new Node();
             addLevel(node.left, depth + 1);
