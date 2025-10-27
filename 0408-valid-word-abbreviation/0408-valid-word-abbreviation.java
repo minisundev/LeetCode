@@ -9,7 +9,7 @@ class Solution {
             //숫자일때
             if(c1>='0'&&c1<='9'){
                 if(sb.length()==0 && c1=='0'){
-                    System.out.println("leading zero false");
+                    //System.out.println("leading zero false");
                     return false;
                 } 
                 sb.append(c1);
@@ -27,7 +27,7 @@ class Solution {
             } 
             char c2 = word.charAt(idx);
             if(c1!=c2){
-                System.out.println("("+i+","+idx +")"+"("+c1+","+c2+ ") false");
+                //System.out.println("("+i+","+idx +")"+"("+c1+","+c2+ ") false");
                 return false;
             } 
             idx++;
@@ -37,7 +37,7 @@ class Solution {
             int skip = Integer.parseInt(sb.toString());
             idx += skip;
             if(idx!=word.length()){
-                System.out.println("idx>word.length()-1 false");
+                //System.out.println("idx>word.length()-1 false");
                 return false;
             }
         }
