@@ -40,7 +40,7 @@ class Solution {
             }
         }
 
-        System.out.println("최대공약수:"+dp[n-1][m-1]);
+        //System.out.println("최대공약수:"+dp[n-1][m-1]);
 
         return word1.length()+word2.length() - dp[n-1][m-1]*2;
     }
