@@ -1,59 +1,61 @@
 class Solution {
+    int[][] board;
+    int n;
+    int m;
+    
     public void gameOfLife(int[][] board) {
-        int[][] next = new int[board.length][board[0].length];
-        // 생존 이웃 2 미만 -> 죽음
-        // 2~3명의 생존 이웃 -> 생존
-        // 3 초과 이웃 생존 -> 죽음
-        // 3 생존 이웃 -> 부활
-        // 누적합 도입하면 좀 빠르지 않을까~
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                int alive = count(i, j, board);
-                if (board[i][j] == 0) {
-                    if (alive == 3) {
-                        next[i][j] = 1;
+        n = board.length;
+        m = board[0].length;
+        //내가 살아있을때) 산 이웃이 2~3 보다 적어도 죽고 많아도 죽는다!
+        //내가 죽어있을때) 산 이웃이 정확히 3명이면 다시 살아남
+        
+        this.board = board;
+        int[][] sum = new int[n+2][m+2];
+        
+        sum[1][1] = board[0][0];
+        
+        for(int i = 2; i <= n; i++) {
+            sum[i][1] = sum[i-1][1] + board[i-1][0];
+        }
+        
+        for(int j = 2; j <= m; j++) {
+            sum[1][j] = sum[1][j-1] + board[0][j-1];
+        }
+        
+        for(int i = 2; i <= n; i++) {
+            for(int j = 2; j <= m; j++) {
+                sum[i][j] = sum[i-1][j] + sum[i][j-1] - sum[i-1][j-1] + board[i-1][j-1];
+            }
+        }
+        
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                //flip 계산
+                int count = 0;//1이 몇개니~
+                
+                // board[i][j]의 3x3 영역: board 기준 (i-1 ~ i+1, j-1 ~ j+1)
+                // sum 배열 기준으로는 (i ~ i+2, j ~ j+2) 범위인데 경계 체크 필요
+                int r1 = Math.max(0, i - 1) + 1;  // sum[1] ~ sum[n]
+                int c1 = Math.max(0, j - 1) + 1;
+                int r2 = Math.min(n - 1, i + 1) + 1;
+                int c2 = Math.min(m - 1, j + 1) + 1;
+                
+                count = sum[r2][c2] - sum[r1-1][c2] - sum[r2][c1-1] + sum[r1-1][c1-1];
+                
+                count -= board[i][j];
+                
+                if(board[i][j] == 1) {
+                    //살아있을때는 2~3개 아니면 죽이면 됨
+                    if(count < 2 || count > 3) {
+                        board[i][j] = 0;
                     }
-                    continue;
                 } else {
-                    if (alive < 2 || alive > 3) {
-                        next[i][j] = 0;
-                    } else if (alive <= 3 && alive >= 2) {
-                        next[i][j] = 1;
+                    //죽어있을때는 딱 3개면 살리면 됨
+                    if(count == 3) {
+                        board[i][j] = 1;
                     }
                 }
             }
         }
-
-        for(int i=0;i<board.length;i++){
-            for(int j=0;j<board[0].length;j++){
-                board[i][j] = next[i][j];
-            }
-        }
-    }
-
-    int count(int x, int y, int[][] board) {
-        int alive = 0;
-        int dead = 0;
-
-        int startX = Math.max(x - 1, 0);
-        int endX = Math.min(x + 1, board.length - 1);
-        int startY = Math.max(y - 1, 0);
-        int endY = Math.min(y + 1, board[0].length - 1);
-
-        for (int i = startX; i <= endX; i++) {
-            for (int j = startY; j <= endY; j++) {
-                if (x == i && y == j) {
-                    continue;
-                }
-                if (board[i][j] == 1) {
-                    alive++;
-                } else {
-                    dead++;
-                }
-            }
-        }
-
-        //System.out.println(startX + " " + endX + " " + startY + " " + endY + " alive:" + alive);
-        return alive;
     }
 }
