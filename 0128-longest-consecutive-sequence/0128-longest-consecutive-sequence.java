@@ -1,63 +1,72 @@
 class Solution {
     public int longestConsecutive(int[] nums) {
-        int max = 1;
-        // 정렬없이... 어디다가 삽입하면서 그게 원래 있던거랑 일치하면...merge를 해야하는데?
-        // Hash에다가... 시작,끝 으로 저장한다고 쳐도 ㅜ 1 들어가ㅗㄱ 3 들어갔다가 2 들어가는걸 어케알건데 ㅎ'
-        // 정렬 없이 어캐해요 이걸 . . . ? . . . . . . . ?
-        // 시작하는 HashMap이랑 끝나는 HashMap을 동시에 관리해서 시작과 끝을 얘로 검색해서 둘 다 업데이트 치고 remove 하시면
-        // 되겠습니다!!
-        if(nums.length==0) return 0;
+        int max = 0;
+        //정렬문제가 아닌거야?
+        //똑같은거는 스킵해야하네? 0 1 1 2 -> 0 1 2가 됨...
 
-        Map<Integer, Integer> start = new HashMap<>();
-        Map<Integer, Integer> end = new HashMap<>();
-        for (int i : nums) {
-            if (!start.containsKey(i) && !end.containsKey(i)) {
-                if (end.containsKey(i - 1) && start.containsKey(i + 1)) {
-                    end.put(start.get(i + 1), end.get(i - 1));
-                    start.put(end.get(i - 1), start.get(i + 1));
+        Map<Integer,Integer> s_e = new HashMap<>();
+        Map<Integer,Integer> e_s = new HashMap<>();
 
-                    max = Math.max(max, start.get(i + 1) - end.get(i - 1)+1);
+        Set<Integer> set = new HashSet<>();
 
-                    end.remove(i - 1);
-                    start.remove(i + 1);
+        // 저 덩어리로 만들어서 넣어버리는 것임....
+        for(int num : nums){
+            //이미 포함되어있는지 체크하고
+            if(set.contains(num)) continue;
+            set.add(num);
 
-                } else if(start.containsKey(i + 1)){
-                    start.put(i, start.get(i + 1));
-                    end.put(start.get(i + 1),i);
-
-                    max = Math.max(max, start.get(i + 1) - i +1);
-
-                    start.remove(i+1);
-
-                }else if(end.containsKey(i - 1)){
-                    end.put(i, end.get(i - 1));
-                    start.put(end.get(i - 1),i);
-
-                    max = Math.max(max, i - end.get(i - 1) +1);
-
-                    end.remove(i-1);
-
-                }else {
-                    start.put(i, i);
-                    end.put(i, i);
-                }
+            Integer prev = e_s.getOrDefault(num-1,null);
+            Integer post = s_e.getOrDefault(num+1,null);
+            
+            //전은 있고 후가 없으면 전에만 추가하고 끝 
+            if(prev!=null && post==null){
+                //start update
+                s_e.put(prev,num);
+                //end update
+                e_s.remove(num-1);
+                e_s.put(num,prev);
+                //max
+                max = Math.max(max, num - prev + 1);
+                continue;
             }
-            //System.out.println("i: "+ i);
-            //print(start);
-        }
-        return max;
-    }
 
-    void print(Map<Integer, Integer> map) {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            sb.append('<')
-                    .append(entry.getKey())
-                    .append(',')
-                    .append(entry.getValue())
-                    .append('>')
-                    .append('\n');
+            //전도 후도 없다면 새로 넣어줌
+            if(prev==null && post==null){
+                //start update
+                s_e.put(num,num);
+                //end update
+                e_s.put(num,num);
+                //max
+                max = Math.max(max, 1);
+                continue;
+            }
+
+            //전이 없고 후가 있다면 후에 포함
+            if(prev==null && post!=null){
+                //start update
+                s_e.remove(num+1);
+                s_e.put(num,post);
+                //end update
+                e_s.put(post,num);
+                //max
+                max = Math.max(max, post - num + 1);
+                continue;
+            }
+
+            //전도 있고 후도 있다면 전과 후를 이음
+            if(prev!=null && post!=null){
+                //start update
+                s_e.put(prev,post);
+                //end update
+                e_s.put(post,prev);
+                //이러고나서 post안에 들어있는 모든 것들의 링크를 수정해야하는것이냐고 ㅜㅜ
+                //start랑 end만 관리하고... 나머지는 include set으로 하자 다시 수정하자...
+                //max
+                max = Math.max(max, post - prev + 1);
+            }
+            
         }
-        System.out.println(sb);
+
+        return max;
     }
 }
