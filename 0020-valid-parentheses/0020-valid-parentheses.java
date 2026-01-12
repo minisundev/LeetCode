@@ -1,36 +1,27 @@
-import java.util.*;
-
 class Solution {
     public boolean isValid(String s) {
-        Stack<Character> stack = new Stack<>();
-
+        Deque<Character> d = new ArrayDeque<>();
         for(int i=0; i<s.length(); i++){
             char c = s.charAt(i);
-            System.out.println("c"+c);
-
-            if(c=='('||c=='{'||c=='['){
-                stack.add(c);
-            }else {
-                if(stack.isEmpty()){
-                    return false;
+            if(c=='('||c=='{'||c=='['){//open
+                d.addLast(c);
+                System.out.println("add "+ c);
+            }else{//close
+                if(d.isEmpty()) return false;
+                char c2 = d.pollLast();
+                System.out.println("remove "+ c2);
+                boolean pass = false;
+                if(c==')' && c2=='('){
+                    pass = true;
+                }else if(c=='}' && c2=='{'){
+                    pass = true;
+                }else if(c==']' && c2=='['){
+                    pass = true;
                 }
-                char pop = stack.pop();
-                System.out.println("pop"+pop);
-                if(c==')' && pop!='('){
-                    return false;
-                }
-                if(c=='}' && pop!='{'){
-                    return false;
-                }
-                if(c==']' && pop!='['){
-                    return false;
-                }
+                if(!pass) return false;
             }
         }
-
-        if(stack.isEmpty()){
-            return true;
-        }
-        return false;
+        if(!d.isEmpty()) return false;
+        return true;
     }
 }
