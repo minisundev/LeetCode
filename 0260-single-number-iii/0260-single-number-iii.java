@@ -1,6 +1,5 @@
 class Solution {
     public int[] singleNumber(int[] nums) {
-        //졸려죽어요
         //2개는 한번만 나타나고
         //다른것들은 2번씩 나타난대
         //1번씩만 나오는거 2개 찾으래 그럼 해쉬겟지 뭐
