@@ -15,15 +15,15 @@ class Solution {
         // 아님 해쉬맵으로 넣고나서 맨 나중에 꺼내서 정렬하고 누적합 계산하고 찾을때만 이분탐색하기~
 
         //그냥 배열 정렬해서 누적합 처리하면 되지 도대체 무슨소리해요?
- 
         // 중간까지 가야할 것 같아~
         // 저게 정렬이 되어있는 squares인지~ 의문~
         // 정렬해야할듯~
         // o1[1] - o2[1]는 값이 크면 오버플로가 날 수 있음~
-        Arrays.sort(squares, (o1, o2) -> Integer.compare(o1[1], o2[1]));
-
-        double [] sums = new double[squares.length];
+        // Arrays.sort(squares, (o1, o2) -> Integer.compare(o1[1], o2[1]));
+        //double [] sums = new double[squares.length];
+        
         double maxY2 = 0.0;
+        double minY1 = Double.MAX_VALUE;
 
         double sum = 0.0;
         for(int i=0; i<squares.length; i++){
@@ -32,10 +32,10 @@ class Solution {
             int l1 = arr[2]; // li
             int y2 = y1+l1; // yj = yi+li
             
-            sum += 1.0*(y2-y1)*l1; 
-            // area를..구해보아용~
-            sums[i] = sum;
+            sum += 1.0*(y2-y1)*l1; // area를..구해보아용~
+            //sums[i] = sum;
             maxY2 = Math.max(maxY2, y2); // 이분탐색 상한용~
+            minY1 = Math.min(minY1, y1); // 이분탐색 하한용~
         }
 
         /*
@@ -56,9 +56,10 @@ class Solution {
         */
 
         //인덱스가 아닌 이분탐색은 태어나서 처음 봐요 흑흑 이게 미디엄이라니~
+        //그리고 이 방식대로 무식하고 심플하게 이분탐색 돌리려면... 누적합 배열도 정렬도 할 필요가 없어짐...
         double half = sum/2;
         double high = maxY2;
-        double low = squares[0][1]; // 정렬해뒀으니 최소 y1~
+        double low = minY1;
 
         //lowerbound로 잠긴 넓이가 half보다 같거나 커지는 최소 y 찾으면 되는거잖아 지금; (인덱스 말고 y값을 탐색~)
         for(int iter=0; iter<60; iter++){
