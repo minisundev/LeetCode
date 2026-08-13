@@ -3,32 +3,35 @@ class Solution {
         // 흠 이것도 사실상 진심 똑같은 문제네...
         long answer = 0;
 
-        Map<Integer,List<Integer>> map = new HashMap<>();
+        int [] index = new int [nums.length];
+        int size = 0;
+
         int max = nums[0];
 
         for(int i=0; i<nums.length; i++){
             int n = nums[i];
-            max = Math.max(n,max);
-
-            List<Integer> list = map.getOrDefault(n, new ArrayList<>());
-            list.add(i);
-            map.put(n,list);
+            if(n>max){
+                size = 0;
+                index[size] = i;
+                max = n;
+                size++;
+            }else if(n==max){
+                index[size] = i;
+                size++;
+            }
         }
 
-        List<Integer> index = map.get(max);
+        if(size < k){ return 0L; }
 
-        if(index.size() < k){ return 0L; }
-
-        int maximum = index.size()-(k-1);
+        int maximum = size-(k-1);
 
         for(int i=0; i<maximum; i++){
-            int leftIdx = index.get(i);
-            int rightIdx = index.get(i+k-1);
+            int leftIdx = index[i];
+            int rightIdx = index[i+k-1];
             int rightIdx2 = nums.length;
             if(i!=maximum-1){
-                rightIdx2 = index.get(i+k);
+                rightIdx2 = index[i+k];
             }
-            
 
             // 앞쪽은 다 포함
             long leftNumber = leftIdx;
