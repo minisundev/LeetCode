@@ -55,16 +55,4 @@ class Letter {
     public Letter(int lastIndex) {
         this.lastIndex = lastIndex;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
