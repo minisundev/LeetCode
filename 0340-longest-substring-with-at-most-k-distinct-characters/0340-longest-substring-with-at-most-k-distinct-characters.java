@@ -1,58 +1,47 @@
 class Solution {
     public int lengthOfLongestSubstringKDistinct(String s, int k) {
-
-        if (k == 0)
-            return 0;
+        if(k==0) return 0;
 
         int max = 0;
-        int from = 0;
-        Map<Character, Letter> map = new HashMap<>();
 
-        for (int i = 0; i < s.length(); i++) {
-            // 새로운게 하나 나오면 이전에 나왔던 알파벳이 있는 위치까지 찾아가서 싹 제거 -> 저장을 final index로 해두자
-            char c = s.charAt(i);
-            Letter letter = map.getOrDefault(c, null);
-            //System.out.print("i: " + i + " c: " + c + " ");
+        //count
+        Set<Character> set = new HashSet<>();
 
-            if (letter == null) {
-                //System.out.print("letter가 존재하지 않는다면 ~");
+        //last index
+        Map<Character,Integer> map = new HashMap<>();
 
-                if (map.size() < k) {
-                    //System.out.print("map이 k 이하라면! ");
-                    map.put(c, new Letter(i));
-                    max = Math.max(max, i - from);
-                    //System.out.println("from: " + from + "max: " + max);
-                    continue;
-                }
-                
-                while(map.get(s.charAt(from)).lastIndex!=from){
-                    from++;
-                }
-                from++;
-                map.remove(s.charAt(from-1));
+        int left = 0;
+        int right = 0;
 
-                map.put(c, new Letter(i));
-                max = Math.max(max, i - from);
-                //System.out.println(" from: " + from + "max: " + max);
-                continue;
+        while(right<s.length()){
+            char c = s.charAt(right);
+
+            map.put(c,right);
+            set.add(c);
+
+            // 아 제거 로직이 바로 다음 글자가 아니고, 
+            // last 출현이 2번째로 나중에 끝나는 원소부터 뺐어야 하는 거구만 ㅎ 하나는 유지가 가능하니깐
+            if(set.size()>k){
+                List<Character> list = new ArrayList<>(set);
+
+                Collections.sort(list,(o1,o2)->{
+                    return map.get(o1)-map.get(o2);
+                });
+
+                char first = list.get(0);
+                int firstIdx = map.get(first);
+                //System.out.println("update left: "+left+" -> "+ (firstIdx+1));
+
+                left = firstIdx+1; 
+                //System.out.println("remove set: "+map.get(first)+" @right: "+ right);
+                set.remove(first);
             }
 
-            // letter가 존재한다면~
-            letter.lastIndex = i;
-            //System.out.print(" lastIndex updated for char " + c + " to " + i);
-            //map.put(c, letter);
-            max = Math.max(max, i - from);
-            //System.out.println(" i: " + i + " from: " + from + "max: " + max);
+            max = Math.max(right-left+1,max);
+            //System.out.println("max: "+max+" @right: "+ right);
+            right++;
         }
 
-        return max + 1;
-    }
-}
-
-class Letter {
-    public int lastIndex;
-
-    public Letter(int lastIndex) {
-        this.lastIndex = lastIndex;
+        return max;
     }
 }
